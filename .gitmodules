@@ -1,0 +1,3 @@
+[submodule "project-templates"]
+	path = project-templates
+	url = git@gitlab.com:kwatafana/android-project-templates.git
