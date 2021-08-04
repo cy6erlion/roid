@@ -1,6 +1,6 @@
 [package]
 name = "roid"
-authors = ["Jackson G. Kaindume <seestem@protonmail.com>"]
+authors = ["seestem <seestem@merely.tech>"]
 description = "Android Developer Toolkit"
 version = "0.1.0"
 edition = "2018"
@@ -11,7 +11,3 @@ edition = "2018"
 clap = "2.33.3"
 toml = "0.5"
 serde = { version = "1.0.126", features = ["derive"] }
-
-[[bin]]
-name = "roid"
-path = "src/bin.rs"
