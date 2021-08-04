@@ -1,9 +1,93 @@
+use crate::RoidAdapder;
+use clap::{App, Arg, ArgMatches, SubCommand};
 use std::fs;
 use std::process::Command;
 
 const URL: &str = "https://gitlab.com/kwatafana/android-project-templates.git";
 
 pub struct Project;
+
+impl RoidAdapder for Project {
+    /// The new cli subcommand
+    fn cmd<'a, 'b>() -> App<'a, 'b> {
+        SubCommand::with_name("new")
+            .about("Create a new Android project")
+            // an Android project with no activity
+            .arg(
+                Arg::with_name("no-activity")
+                    .long("none")
+                    .short("n")
+                    .takes_value(true)
+                    .help("Create a new Android project with no activity"),
+            )
+            // an Android project with an empty activity
+            .arg(
+                Arg::with_name("empty-activity")
+                    .long("empty")
+                    .short("e")
+                    .takes_value(true)
+                    .help("Create a new Android project with an Empty Activity"),
+            )
+            // an Android project with a basic activity
+            .arg(
+                Arg::with_name("basic-activity")
+                    .long("basic")
+                    .short("b")
+                    .takes_value(true)
+                    .help("Create a new Android project with a Basic Activity"),
+            )
+            // an Android project with a Bottom Navigation activity
+            .arg(
+                Arg::with_name("bottom-nav-activity")
+                    .long("bottom-nav")
+                    .short("v")
+                    .takes_value(true)
+                    .help("Create a new Android project with a Bottom Navigation Activity"),
+            )
+    }
+
+    /// Check the cli commands provided and decide what to do
+    fn process_cmd(matches: ArgMatches<'static>) {
+        match matches.subcommand_matches("new") {
+            Some(new_project) => {
+                // Create a new Android Project with No activity
+                if new_project.is_present("no-activity") {
+                    match new_project.value_of("no-activity") {
+                        Some(name) => Project::create(name, TemplateBranch::NoActivity).unwrap(),
+                        None => (),
+                    }
+                }
+
+                // Create a new Android Project with an empty activity
+                if new_project.is_present("empty-activity") {
+                    match new_project.value_of("empty-activity") {
+                        Some(name) => Project::create(name, TemplateBranch::EmptyActivity).unwrap(),
+                        None => (),
+                    }
+                }
+
+                // Create a new Android Project with a basic activity
+                if new_project.is_present("basic-activity") {
+                    match new_project.value_of("basic-activity") {
+                        Some(name) => Project::create(name, TemplateBranch::BasicActivity).unwrap(),
+                        None => (),
+                    }
+                }
+
+                // Create a new Android Project with a bottom navigation activity
+                if new_project.is_present("bottom-nav-activity") {
+                    match new_project.value_of("bottom-nav-activity") {
+                        Some(name) => {
+                            Project::create(name, TemplateBranch::BottomNavActivity).unwrap()
+                        }
+                        None => (),
+                    }
+                }
+            }
+            None => (),
+        }
+    }
+}
 
 impl Project {
     /// Create a project
