@@ -61,8 +61,4 @@ $ roid device --list
 $ roid install --apk ./build/outputs/apk/debug/app-debug.apk
 ```
 
----
-
-``` text
-seestem@merely.tech ⧉
-```
+⧉
