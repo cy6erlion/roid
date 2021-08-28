@@ -1,9 +1,8 @@
+use crate::config::Config;
 use crate::RoidAdapder;
 use clap::{App, Arg, ArgMatches, SubCommand};
 use std::fs;
 use std::process::Command;
-
-const URL: &str = "https://gitlab.com/kwatafana/android-project-templates.git";
 
 pub struct Project;
 
@@ -47,13 +46,17 @@ impl RoidAdapder for Project {
     }
 
     /// Check the cli commands provided and decide what to do
-    fn process_cmd(matches: ArgMatches<'static>) {
+    fn process_cmd(matches: ArgMatches<'static>, conf: &Config) {
+        let url = Config::get_templates(conf);
+
         match matches.subcommand_matches("new") {
             Some(new_project) => {
                 // Create a new Android Project with No activity
                 if new_project.is_present("no-activity") {
                     match new_project.value_of("no-activity") {
-                        Some(name) => Project::create(name, TemplateBranch::NoActivity).unwrap(),
+                        Some(name) => {
+                            Project::create(name, TemplateBranch::NoActivity, url).unwrap()
+                        }
                         None => (),
                     }
                 }
@@ -61,7 +64,9 @@ impl RoidAdapder for Project {
                 // Create a new Android Project with an empty activity
                 if new_project.is_present("empty-activity") {
                     match new_project.value_of("empty-activity") {
-                        Some(name) => Project::create(name, TemplateBranch::EmptyActivity).unwrap(),
+                        Some(name) => {
+                            Project::create(name, TemplateBranch::EmptyActivity, url).unwrap()
+                        }
                         None => (),
                     }
                 }
@@ -69,7 +74,9 @@ impl RoidAdapder for Project {
                 // Create a new Android Project with a basic activity
                 if new_project.is_present("basic-activity") {
                     match new_project.value_of("basic-activity") {
-                        Some(name) => Project::create(name, TemplateBranch::BasicActivity).unwrap(),
+                        Some(name) => {
+                            Project::create(name, TemplateBranch::BasicActivity, url).unwrap()
+                        }
                         None => (),
                     }
                 }
@@ -78,7 +85,7 @@ impl RoidAdapder for Project {
                 if new_project.is_present("bottom-nav-activity") {
                     match new_project.value_of("bottom-nav-activity") {
                         Some(name) => {
-                            Project::create(name, TemplateBranch::BottomNavActivity).unwrap()
+                            Project::create(name, TemplateBranch::BottomNavActivity, url).unwrap()
                         }
                         None => (),
                     }
@@ -91,7 +98,7 @@ impl RoidAdapder for Project {
 
 impl Project {
     /// Create a project
-    pub fn create(project_name: &str, template: TemplateBranch) -> Result<(), ()> {
+    pub fn create(project_name: &str, template: TemplateBranch, url: &str) -> Result<(), ()> {
         if cfg!(target_os = "windows") {
             panic!("Sorry. Currently only Unix based systems are supported!");
         } else {
@@ -102,7 +109,7 @@ impl Project {
                 .arg("--single-branch")
                 .arg("--branch")
                 .arg(branch)
-                .arg(URL)
+                .arg(url)
                 .arg(project_name)
                 .status()
                 .expect("failed to execute git clone");

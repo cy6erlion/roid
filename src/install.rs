@@ -1,3 +1,4 @@
+use crate::config::Config;
 use crate::RoidAdapder;
 use clap::{App, Arg, ArgMatches, SubCommand};
 use std::process::Command;
@@ -19,10 +20,11 @@ impl RoidAdapder for Install {
             )
     }
     /// check build commands from command line and decide what to do
-    fn process_cmd(matches: ArgMatches<'static>) {
+    fn process_cmd(matches: ArgMatches<'static>, conf: &Config) {
+        let adb = Config::get_adb(conf);
         match matches.subcommand_matches("install") {
             Some(flag) => match flag.value_of("apk") {
-                Some(p) => Install::apk(p).unwrap(),
+                Some(p) => Install::apk(p, adb).unwrap(),
                 None => (),
             },
             None => (),
@@ -32,12 +34,11 @@ impl RoidAdapder for Install {
 
 impl Install {
     /// Install project in current directory on a device
-    pub fn apk(apk_path: &str) -> Result<(), ()> {
+    pub fn apk(apk_path: &str, adb: &str) -> Result<(), ()> {
         if cfg!(target_os = "windows") {
             panic!("Sorry. Currently only Unix based systems are supported!");
         } else {
-            println!("{}", apk_path);
-            Command::new("adb")
+            Command::new(adb)
                 .arg("-d")
                 .arg("install")
                 .arg(apk_path)

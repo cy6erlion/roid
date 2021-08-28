@@ -1,0 +1,11 @@
+# Path to Android Project Templates Repository
+templates = ""
+
+# Path to gradle
+gradle = "/usr/bin/gradle"
+
+# Path to Android SDK emulator cli tool
+emulator = "/home/{user}/Android/Sdk/emulator/emulator"
+
+# Path to ADB
+adb = "/usr/bin/adb"

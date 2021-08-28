@@ -1,3 +1,4 @@
+use crate::config::Config;
 use crate::RoidAdapder;
 use clap::{App, Arg, ArgMatches, SubCommand};
 use std::process::Command;
@@ -24,17 +25,19 @@ impl RoidAdapder for Build {
             )
     }
     /// check build commands from command line and decide what to do
-    fn process_cmd(matches: ArgMatches<'static>) {
+    fn process_cmd(matches: ArgMatches<'static>, conf: &Config) {
         match matches.subcommand_matches("build") {
             Some(flag) => {
+                let cmd = Config::get_gradle(conf);
+
                 // check if debug build
                 if flag.is_present("debug") {
-                    Build::debug().unwrap();
+                    Build::debug(&cmd).unwrap();
                 }
 
                 // check if release build
                 if flag.is_present("release") {
-                    Build::release().unwrap();
+                    Build::release(&cmd).unwrap();
                 }
             }
             None => (),
@@ -44,11 +47,11 @@ impl RoidAdapder for Build {
 
 impl Build {
     /// Build an Android project in debug mode
-    pub fn debug() -> Result<(), ()> {
+    pub fn debug(cmd: &str) -> Result<(), ()> {
         if cfg!(target_os = "windows") {
             panic!("Sorry. Currently only Unix based systems are supported!");
         } else {
-            Command::new("gradle")
+            Command::new(cmd)
                 .arg("assembleDebug")
                 .status()
                 .expect("failed to build Project in debug mode");
@@ -57,11 +60,11 @@ impl Build {
         }
     }
     /// Build an Android project in release mode
-    pub fn release() -> Result<(), ()> {
+    pub fn release(cmd: &str) -> Result<(), ()> {
         if cfg!(target_os = "windows") {
             panic!("Sorry. Currently only Unix based systems are supported!");
         } else {
-            Command::new("gradle")
+            Command::new(cmd)
                 .arg("assemble")
                 .status()
                 .expect("failed to build Project in release mode");

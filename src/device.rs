@@ -1,3 +1,4 @@
+use crate::config::Config;
 use crate::RoidAdapder;
 use clap::{App, Arg, ArgMatches, SubCommand};
 use std::process::Command;
@@ -25,16 +26,19 @@ impl RoidAdapder for Device {
             )
     }
     /// check build commands from command line and decide what to do
-    fn process_cmd(matches: ArgMatches<'static>) {
+    fn process_cmd(matches: ArgMatches<'static>, conf: &Config) {
         match matches.subcommand_matches("device") {
             Some(flag) => {
+                let emulator = Config::get_emulator(&conf);
+                let adb = Config::get_adb(&conf);
+
                 if flag.is_present("list") {
-                    Device::list().unwrap()
+                    Device::list(emulator, adb).unwrap()
                 }
 
                 if flag.is_present("emulator") {
                     match flag.value_of("emulator") {
-                        Some(name) => Device::emulator(name).unwrap(),
+                        Some(name) => Device::emulator(name, emulator).unwrap(),
                         None => (),
                     }
                 }
@@ -46,18 +50,18 @@ impl RoidAdapder for Device {
 
 impl Device {
     /// List all available Android devices and emulators
-    pub fn list() -> Result<(), ()> {
+    pub fn list(emulator: &str, adb: &str) -> Result<(), ()> {
         if cfg!(target_os = "windows") {
             panic!("Sorry. Currently only Unix based systems are supported!");
         } else {
             println!("\n-------- ANDROID DEVICES -------");
             println!("\nList of available emulators");
-            Command::new("/home/seestem/Android/Sdk/emulator/emulator")
+            Command::new(emulator)
                 .arg("-list-avds")
                 .status()
                 .expect("failed to list emulators");
             println!("");
-            Command::new("adb")
+            Command::new(adb)
                 .arg("devices")
                 .status()
                 .expect("failed to list attached devices");
@@ -67,11 +71,11 @@ impl Device {
     }
 
     /// Launch an emulator
-    pub fn emulator(name: &str) -> Result<(), ()> {
+    pub fn emulator(name: &str, emulator: &str) -> Result<(), ()> {
         if cfg!(target_os = "windows") {
             panic!("Sorry. Currently only Unix based systems are supported!");
         } else {
-            Command::new("/home/seestem/Android/Sdk/emulator/emulator")
+            Command::new(emulator)
                 .arg("-avd")
                 .arg(name)
                 .status()

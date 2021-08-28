@@ -3,7 +3,7 @@
 
 extern crate clap;
 mod build;
-mod config;
+pub mod config;
 mod device;
 mod install;
 mod project;
@@ -25,10 +25,12 @@ pub trait RoidAdapder {
     fn cmd<'a, 'b>() -> App<'a, 'b>;
 
     /// Process the commands
-    fn process_cmd(matches: ArgMatches<'static>);
+    fn process_cmd(matches: ArgMatches<'static>, conf: &config::Config);
 }
 
-fn main() {
+fn main() -> std::io::Result<()> {
+    let conf = config::Config::read_config();
+
     // register commands
     let matches = App::new("roid")
         .version("0.1.0")
@@ -41,8 +43,10 @@ fn main() {
         .get_matches();
 
     // process commands
-    project::Project::process_cmd(matches.clone());
-    build::Build::process_cmd(matches.clone());
-    install::Install::process_cmd(matches.clone());
-    device::Device::process_cmd(matches);
+    project::Project::process_cmd(matches.clone(), &conf);
+    build::Build::process_cmd(matches.clone(), &conf);
+    install::Install::process_cmd(matches.clone(), &conf);
+    device::Device::process_cmd(matches, &conf);
+
+    Ok(())
 }

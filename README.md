@@ -37,6 +37,27 @@ SUBCOMMANDS:
 
 ### Guide
 
+First set up a Roid.toml file @ `~/.config/Roid.toml`:
+
+``` toml
+# Path to Android Project Templates Repository
+# You can use the default repository below, 
+# or you can create your own Android project templates (with android studio)
+templates = "https://gitlab.com/seestem/android-project-templates.git"
+
+# Path to gradle
+# defaults to: gradle
+gradle = "/usr/bin/gradle"
+
+# Path to Android SDK emulator cli tool: 
+# defaults to: emulator
+emulator = "/home/{user}/Android/Sdk/emulator/emulator"
+
+# Path to ADB
+# defaults to: adb
+adb = "/usr/bin/adb"
+```
+
 #### Creating a new Android project with no activity
 
 ```bash
