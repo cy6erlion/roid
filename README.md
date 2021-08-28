@@ -26,14 +26,9 @@ SUBCOMMANDS:
 ```
 
 ### Requirements 
-
-- Android Studio
-- Android SDK Platform 30
 - Gradle
-- Java
-- Git
-- Linux
-- Computer
+- Android emulator
+- ADB
 
 ### Guide
 
