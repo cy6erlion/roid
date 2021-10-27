@@ -7,7 +7,7 @@
 | '_|/ _ \| |/ _` |
 |_|  \___/|_|\__,_|
 
-roid 0.1.0
+roid 0.1.1
 Android Developer Toolkit
 
 USAGE:
@@ -38,7 +38,7 @@ First set up a Roid.toml file @ `~/.config/Roid.toml`:
 # Path to Android Project Templates Repository
 # You can use the default repository below, 
 # or you can create your own Android project templates (with android studio)
-templates = "https://gitlab.com/seestem/android-project-templates.git"
+templates = "https://github.com/cy6erlion/android-project-templates.git"
 
 # Path to gradle
 # defaults to: gradle
