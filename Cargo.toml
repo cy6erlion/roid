@@ -11,3 +11,4 @@ edition = "2018"
 clap = "2.33.3"
 toml = "0.5"
 serde = { version = "1.0.126", features = ["derive"] }
+dirs = "4.0.0"
