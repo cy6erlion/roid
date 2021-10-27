@@ -33,7 +33,7 @@ fn main() -> std::io::Result<()> {
 
     // register commands
     let matches = App::new("roid")
-        .version("0.1.0")
+        .version(env!("CARGO_PKG_VERSION"))
         .about("Android Developer Toolkit")
         .before_help(LOGO)
         .subcommand(project::Project::cmd())
