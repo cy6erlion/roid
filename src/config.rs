@@ -2,6 +2,9 @@ use serde::Deserialize;
 use std::fs::File;
 use std::io::prelude::*;
 
+/// Default template repo url, can be set in Roid.toml file
+const TEMPLATES_URL: &str = "https://github.com/cy6erlion/android-project-templates.git";
+
 #[derive(Deserialize)]
 pub struct Config {
     /// URL of Android project templates repo
@@ -21,7 +24,16 @@ pub struct Config {
 impl Config {
     pub fn read_config() -> Config {
         // Read Config file
-        let mut file = File::open("/home/seestem/.config/Roid.toml").unwrap();
+        let mut file_path;
+
+        if let Some(p) = dirs::config_dir() {
+            file_path = p;
+        } else {
+            panic!("Config directory not found");
+        }
+        file_path.push("Roid.toml");
+
+        let mut file = File::open(file_path).unwrap();
         let mut contents = String::new();
         file.read_to_string(&mut contents).unwrap();
 
@@ -31,15 +43,12 @@ impl Config {
 
     /// Get templates repo url
     pub fn get_templates(config: &Config) -> &str {
-        // default repo
-        let mut url = "https://gitlab.com/seestem/android-project-templates.git";
-
         // Check config for templates repo url
-        if let Some(u) = &config.templates {
-            url = u;
+        if let Some(url) = &config.templates {
+            url
+        } else {
+            TEMPLATES_URL
         }
-
-        url
     }
 
     /// Get gradle command
