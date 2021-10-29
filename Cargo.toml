@@ -1,9 +1,17 @@
 [package]
 name = "roid"
-authors = ["seestem <seestem@merely.tech>"]
+authors = ["Jackson G. Kaindume <seestem@merely.tech>"]
 description = "Android Developer Toolkit"
 version = "0.1.1"
 edition = "2018"
+license = "MIT"
+license-file = "LICENSE"
+keywords = ["android", "sdk", "developer", "toolkit"]
+categories = ["development-tools::build-utils"]
+exclude = ["project-templates"]
+homepage = "https://github.com/cy6erlion/roid"
+repository = "https://github.com/cy6erlion/roid"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
