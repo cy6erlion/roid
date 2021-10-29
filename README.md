@@ -1,3 +1,5 @@
+![crates.io](https://img.shields.io/crates/v/roid "crates.io")
+
 ``` bash
                (
  (        (    )\ )
