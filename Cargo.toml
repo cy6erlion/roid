@@ -5,7 +5,6 @@ description = "Android Developer Toolkit"
 version = "0.1.1"
 edition = "2018"
 license = "MIT"
-license-file = "LICENSE"
 keywords = ["android", "sdk", "developer", "toolkit"]
 categories = ["development-tools::build-utils"]
 exclude = ["project-templates"]
