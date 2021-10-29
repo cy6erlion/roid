@@ -32,7 +32,13 @@ SUBCOMMANDS:
 
 ### Guide
 
-First set up a Roid.toml file @ `~/.config/Roid.toml`:
+Install with [cargo](https://github.com/rust-lang/cargo):
+
+``` bash
+$ cargo install roid
+```
+
+Set up a Roid.toml file @ `~/.config/Roid.toml`:
 
 ``` toml
 # Path to Android Project Templates Repository
