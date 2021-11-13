@@ -1,5 +1,3 @@
-# Path to Android Project Templates Repository
-
 # Path to gradle
 gradle = "/usr/bin/gradle"
 
