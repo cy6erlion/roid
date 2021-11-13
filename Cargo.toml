@@ -2,7 +2,7 @@
 name = "roid"
 authors = ["Jackson G. Kaindume <seestem@merely.tech>"]
 description = "Android Developer Toolkit"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2018"
 license = "MIT"
 keywords = ["android", "sdk", "developer", "toolkit"]

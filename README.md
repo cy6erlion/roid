@@ -67,5 +67,3 @@ $ roid device --list
 ``` bash
 $ roid install --apk ./build/outputs/apk/debug/app-debug.apk
 ```
-
-⧉
