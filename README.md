@@ -9,7 +9,7 @@
 | '_|/ _ \| |/ _` |
 |_|  \___/|_|\__,_|
 
-roid 0.1.1
+roid 0.1.2
 Android Developer Toolkit
 
 USAGE:
