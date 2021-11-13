@@ -6,7 +6,6 @@ mod build;
 pub mod config;
 mod device;
 mod install;
-mod project;
 use clap::{App, ArgMatches};
 
 const LOGO: &str = r#"
@@ -36,14 +35,12 @@ fn main() -> std::io::Result<()> {
         .version(env!("CARGO_PKG_VERSION"))
         .about("Android Developer Toolkit")
         .before_help(LOGO)
-        .subcommand(project::Project::cmd())
         .subcommand(build::Build::cmd())
         .subcommand(install::Install::cmd())
         .subcommand(device::Device::cmd())
         .get_matches();
 
     // process commands
-    project::Project::process_cmd(matches.clone(), &conf);
     build::Build::process_cmd(matches.clone(), &conf);
     install::Install::process_cmd(matches.clone(), &conf);
     device::Device::process_cmd(matches, &conf);
